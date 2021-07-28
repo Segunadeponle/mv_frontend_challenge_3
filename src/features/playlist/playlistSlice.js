@@ -64,7 +64,6 @@ export const playlistSlice = createSlice({
         state.loading = false;
         notification.error({
           message: 'Error loading video',
-          placement: 'bottomRight'
         });
       })
       .addCase(addVideoAsync.fulfilled, (state, action) => {

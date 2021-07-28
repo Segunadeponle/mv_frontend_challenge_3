@@ -8,6 +8,7 @@
 .thumbnail-image{
   width: 300px;
   height: 200px;
+  padding-bottom: 12px;
 }
 
 
@@ -17,24 +18,6 @@
   margin-bottom: 20px;
 }
 
-
-.thumbnail-title {
-  margin: 0 0 4px 0;
-  display: block;
-  margin: 0 0 4px 0;
-  display: -webkit-box;
-  width: 150px;
-  /* max-height: calc(2 * var(--yt-link-line-height, 1.6rem)); */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  -webkit-line-clamp: 2;
-  /* font-size: var(--yt-link-font-size, 1.4rem); */
-  font-weight: 500;
-  /* line-height: var(--yt-link-line-height, 1.6rem); */
-  /* letter-spacing: var(--yt-link-letter-spacing, normal); */
-}
 
 .content {
   padding: 20px;

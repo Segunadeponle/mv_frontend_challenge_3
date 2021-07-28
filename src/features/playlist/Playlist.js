@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Row, Col, Button, Modal, Input, Card } from 'antd';
+import { Layout, Row, Col, Button, Modal, Input, Card, PageHeader } from 'antd';
 import {
   removeVideo,
   addVideoAsync,
@@ -10,6 +10,9 @@ import { NavBar } from './components/NavBar'
 
 import styles from './Playlist.module.css';
 
+import {
+  PlayCircleOutlined
+} from '@ant-design/icons';
 
 
 
@@ -45,13 +48,14 @@ export function Playlist() {
   const renderModal = () => {
     return (
       <Modal
-        title="Enter the url to the youtube video"
+        title="Add to playlist"
         visible={isModalVisible}
         onOk={handleOk}
         okText="Save"
         onCancel={handleCancel}
         confirmLoading={playlist.loading}
       >
+        <p>Enter YouTube video link</p>
         <Input
           value={videoToBeAdded}
           onChange={(e) => setVideoToBeAdded(e.target.value)} />
@@ -66,9 +70,8 @@ export function Playlist() {
       <div>
         <Layout className="layout">
 
-          <NavBar showModal={showModal} />
+          <NavBar />
           <Content className={styles.content}>
-
             <div className="site-layout-content">
 
               <Row>
@@ -84,14 +87,28 @@ export function Playlist() {
                   </div>
 
                 </Col>
-
                 <Col className={styles.windows} xs={24} xl={8} >
+                  <PageHeader
+                    className="site-page-header"
+                    title="Playlist"
+                    extra={[
+                      <Button onClick={showModal} key="1" type="primary">
+                        Add to playlist
+                      </Button>,
+                    ]}
+                  />
                   {playlist.data.map((item) => (
-                    <Card key={item.id} onClick={() => setCurrentlyPlaying(item)} className={styles.thumbnail} hoverable={true} title={item.title} extra={<Button onClick={(e) => {
+                    <Card key={item.id} onClick={() => setCurrentlyPlaying(item)} className={styles.thumbnail} hoverable={true} title={item.title} extra={<Button danger onClick={(e) => {
                       e.stopPropagation();
                       dispatch(removeVideo(item.id));
-                    }} type="default">Remove</Button>} style={{ width: 400, height: 300 }}>
-                      <img className={styles['thumbnail-image']} src={item.thumbnail_url} />
+                    }} type="primary">Remove</Button>}
+                      style={{ width: '100%', height: 370 }}
+
+                    >
+                      <div style={{ width: '100%', height: '250px', backgroundImage: `url("${item.thumbnail_url}")`, backgroundSize: 'cover', }}>
+                        <PlayCircleOutlined width="400px" height="300px" style={{ zIndex: 99, fontSize: '150px', margin: 43, color: 'gray', opacity: 0.7 }} />
+                      </div>
+
                     </Card>
                   ))}
                 </Col>
