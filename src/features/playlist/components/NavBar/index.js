@@ -8,7 +8,7 @@ export function NavBar(props) {
     return (
         <Header>
             <Row>
-                <Col span={16} className={styles.header}>YouTube video player</Col>
+                <Col span={24} className={styles.header}>YouTube video player</Col>
             </Row>
         </Header>
     );
