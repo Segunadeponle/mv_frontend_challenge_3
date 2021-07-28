@@ -85,13 +85,13 @@ export function Playlist() {
               <Row>
                 <Col className={styles.windows} xs={24} xl={15} >
                   <div className={styles.container}>
-                    {/* <iframe
+                    <iframe
                       className={styles.responsiveIframe}
                       src={`https://www.youtube.com/embed/${currentlyPlaying.videoId}?&autoplay=1`}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowfullscreen>
-                    </iframe> */}
+                    </iframe>
                   </div>
 
                 </Col>
