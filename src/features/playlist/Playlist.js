@@ -1,72 +1,37 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  incrementIfOdd,
-  selectCount,
-} from './counterSlice';
-import styles from './Counter.module.css';
+  removeVideo,
+  addVideoAsync,
+  selectPlaylist,
+} from './playlistSlice';
+import styles from './Playlist.module.css';
 import { Layout, Row, Col, Button, Modal, Input, Card } from 'antd';
 
 
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 export function Playlist() {
-  const count = useSelector(selectCount);
+  const playlist = useSelector(selectPlaylist);
   const dispatch = useDispatch();
-  const [playlist, setPlaylist] = useState([
-    {
-      "id": "0rkTgPt3M4k",
-      "title": "A COMPLETELY Upgradeable Laptop?",
-      "author_name": "Linus Tech Tips",
-      "thumbnail_url": "https://i.ytimg.com/vi/0rkTgPt3M4k/hqdefault.jpg",
-    },
-    {
-      "id": "YZdMHL8IpBk",
-      "title": "Steam Deck: Valve Demos its Unique Trackpad and Gyroscopic Controls",
-      "author_name": "IGN",
-      "thumbnail_url": "https://i.ytimg.com/vi/YZdMHL8IpBk/hqdefault.jpg",
-    }
-  ]);
-  const [currentlyPlaying, setCurrentlyPlaying] = useState(playlist[0]);
+
+  const [currentlyPlaying, setCurrentlyPlaying] = useState(playlist.data[0]);
   const [videoToBeAdded, setVideoToBeAdded] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-
-  // console.log(JSON.stringify(playlist, null, 2));
-  const addVideo = () => {
-    fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(videoToBeAdded))
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        const { id } = data.html.match(/https:\/\/www\.youtube\.com\/embed\/(?<id>.+)\?feature=oembed/).groups;
-        const { title, author_name, thumbnail_url } = data;
-        setPlaylist([{
-          id,
-          title,
-          author_name,
-          thumbnail_url,
-        },
-        ...playlist]);
-      });
-    setVideoToBeAdded('');
-  };
-
-  const removeVideo = (id) => {
-    setPlaylist(playlist.filter((item)=> item.id!==id));
-  }
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
-    addVideo();
-    setIsModalVisible(false);
+    dispatch(addVideoAsync({
+      videoToBeAdded, 
+      onComplete: () => {
+      setVideoToBeAdded('');
+      setIsModalVisible(false);
+    }}));
+
   };
 
   const handleCancel = () => {
@@ -75,7 +40,14 @@ export function Playlist() {
 
   const renderModal = () => {
     return (
-      <Modal title="Enter the url to the youtube video" visible={isModalVisible} onOk={handleOk} okText="Save" onCancel={handleCancel}>
+      <Modal
+        title="Enter the url to the youtube video"
+        visible={isModalVisible}
+        onOk={handleOk}
+        okText="Save"
+        onCancel={handleCancel}
+        confirmLoading={playlist.loading}
+      >
         <Input
           value={videoToBeAdded}
           onChange={(e) => setVideoToBeAdded(e.target.value)} />
@@ -109,7 +81,6 @@ export function Playlist() {
                       className={styles.responsiveIframe}
                       src={`https://www.youtube.com/embed/${currentlyPlaying.id}?&autoplay=1`}
                       title="YouTube video player"
-                      // frameborder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowfullscreen>
                     </iframe>
@@ -118,14 +89,10 @@ export function Playlist() {
                 </Col>
 
                 <Col className={styles.windows} xs={24} xl={8} >
-                  {playlist.map((item) => (
-                    // <p key={item.id} onClick={() => setCurrentlyPlaying(item)}>
-                    //   <img className={styles.thumbnail} src={item.thumbnail_url} />
-                    // </p>
-                    <Card key={item.id} onClick={() => setCurrentlyPlaying(item)} className={styles.thumbnail} hoverable={true} title={item.title} extra={<Button onClick={(e)=> {
+                  {playlist.data.map((item) => (
+                    <Card key={item.id} onClick={() => setCurrentlyPlaying(item)} className={styles.thumbnail} hoverable={true} title={item.title} extra={<Button onClick={(e) => {
                       e.stopPropagation();
-
-                      removeVideo(item.id);
+                      dispatch(removeVideo(item.id));
                     }} type="default">Remove</Button>} style={{ width: 400, height: 300 }}>
                       <img className={styles['thumbnail-image']} src={item.thumbnail_url} />
                     </Card>
