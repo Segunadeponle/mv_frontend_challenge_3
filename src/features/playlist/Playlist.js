@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Layout, Row, Col, Button, Modal, Input, Card } from 'antd';
 import {
   removeVideo,
   addVideoAsync,
   selectPlaylist,
 } from './playlistSlice';
+import { NavBar } from './components/NavBar'
+
 import styles from './Playlist.module.css';
-import { Layout, Row, Col, Button, Modal, Input, Card } from 'antd';
 
 
 
-const { Header, Content } = Layout;
+
+const { Content } = Layout;
 
 export function Playlist() {
   const playlist = useSelector(selectPlaylist);
@@ -26,11 +29,12 @@ export function Playlist() {
 
   const handleOk = () => {
     dispatch(addVideoAsync({
-      videoToBeAdded, 
+      videoToBeAdded,
       onComplete: () => {
-      setVideoToBeAdded('');
-      setIsModalVisible(false);
-    }}));
+        setVideoToBeAdded('');
+        setIsModalVisible(false);
+      }
+    }));
 
   };
 
@@ -61,15 +65,8 @@ export function Playlist() {
       {renderModal()}
       <div>
         <Layout className="layout">
-          <Header>
-            <Row>
-              <Col span={16} className={styles.header}>YouTube video player</Col>
 
-              <Col span={4} className={styles.header}></Col>
-              <Col span={4} className={styles.header}><Button onClick={showModal} type="default">Add Video</Button></Col>
-            </Row>
-
-          </Header>
+          <NavBar showModal={showModal} />
           <Content className={styles.content}>
 
             <div className="site-layout-content">
