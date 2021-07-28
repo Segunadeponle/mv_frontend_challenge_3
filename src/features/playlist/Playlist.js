@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Row, Col, Button, Modal, Input, Card, PageHeader } from 'antd';
+import { Layout, Row, Col, Button, Modal, Input, Card, PageHeader, Alert } from 'antd';
 import {
   removeVideo,
   addVideoAsync,
@@ -25,12 +25,17 @@ export function Playlist() {
   const [currentlyPlaying, setCurrentlyPlaying] = useState(playlist.data[0]);
   const [videoToBeAdded, setVideoToBeAdded] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
+    if (!videoToBeAdded.match(/.*((youtube\.com)|(youtu.be)).*/)) {
+      setErrorMessage("The youtube link is invalid.")
+      return;
+    }
     dispatch(addVideoAsync({
       videoToBeAdded,
       onComplete: () => {
@@ -58,8 +63,11 @@ export function Playlist() {
         <p>Enter YouTube video link</p>
         <Input
           value={videoToBeAdded}
-          onChange={(e) => setVideoToBeAdded(e.target.value)} />
-
+          onChange={(e) => {
+            setVideoToBeAdded(e.target.value);
+            setErrorMessage('');
+          }} />
+        {errorMessage && (<Alert message={errorMessage} type="error" />)}
       </Modal>
     )
   };
@@ -77,13 +85,13 @@ export function Playlist() {
               <Row>
                 <Col className={styles.windows} xs={24} xl={15} >
                   <div className={styles.container}>
-                    <iframe
+                    {/* <iframe
                       className={styles.responsiveIframe}
-                      src={`https://www.youtube.com/embed/${currentlyPlaying.id}?&autoplay=1`}
+                      src={`https://www.youtube.com/embed/${currentlyPlaying.videoId}?&autoplay=1`}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowfullscreen>
-                    </iframe>
+                    </iframe> */}
                   </div>
 
                 </Col>

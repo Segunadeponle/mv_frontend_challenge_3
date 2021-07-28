@@ -1,18 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { addVideo } from './playlistAPI';
 import { notification } from 'antd';
-
+import { nanoid } from 'nanoid';
+import { addVideo } from './playlistAPI';
 
 const initialState = {
   data: [
     {
-      "id": "0rkTgPt3M4k",
+      "id": nanoid(),
+      "videoId": "0rkTgPt3M4k",
       "title": "A COMPLETELY Upgradeable Laptop?",
       "author_name": "Linus Tech Tips",
       "thumbnail_url": "https://i.ytimg.com/vi/0rkTgPt3M4k/hqdefault.jpg",
     },
     {
-      "id": "YZdMHL8IpBk",
+      "id": nanoid(),
+      "videoId": "YZdMHL8IpBk",
       "title": "Steam Deck: Valve Demos its Unique Trackpad and Gyroscopic Controls",
       "author_name": "IGN",
       "thumbnail_url": "https://i.ytimg.com/vi/YZdMHL8IpBk/hqdefault.jpg",
