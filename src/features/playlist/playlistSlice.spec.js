@@ -50,6 +50,9 @@ describe('playlist reducer', () => {
     const actual = playlistReducer(initialState, action);
     
     expect(actual.data.length).toEqual(3);
+
+    expect(actual.data[0].title).toEqual(action.payload.title);
+    expect(actual.data[0].thumbnail_url).toEqual(action.payload.thumbnail_url);
   });
 
 

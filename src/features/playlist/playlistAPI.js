@@ -1,4 +1,3 @@
-// A mock function to mimic making an async request for data
 import { nanoid } from 'nanoid';
 
 export function addVideo(videoToBeAdded) {
