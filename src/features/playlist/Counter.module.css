@@ -1,0 +1,66 @@
+.header {
+  color: white;
+  font-size: large;
+  font-weight: bolder;
+  text-align: start;
+}
+
+.thumbnail-image{
+  width: 300px;
+  height: 200px;
+}
+
+
+.thumbnail{
+  width: 300px;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+
+.thumbnail-title {
+  margin: 0 0 4px 0;
+  display: block;
+  margin: 0 0 4px 0;
+  display: -webkit-box;
+  width: 150px;
+  /* max-height: calc(2 * var(--yt-link-line-height, 1.6rem)); */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+  /* font-size: var(--yt-link-font-size, 1.4rem); */
+  font-weight: 500;
+  /* line-height: var(--yt-link-line-height, 1.6rem); */
+  /* letter-spacing: var(--yt-link-letter-spacing, normal); */
+}
+
+.content {
+  padding: 20px;
+}
+
+
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+.responsiveIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.windows {
+  padding-top: 10px;
+  margin: 10px;
+}
